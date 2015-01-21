@@ -14,7 +14,8 @@ Vagrant.configure(2) do |config|
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "puppetlabs/ubuntu-14.04-64-puppet"
   #config.vm.network "forwarded_port", guest: 80, host: 8000
-  config.vm.network "private_network", ip: "192.168.2.40"
+  config.vm.network "private_network", ip: "192.168.2.41"
+  config.vm.network "public_network", ip: "192.168.1.42"
 
   config.vm.provision "puppet" do |puppet|
     puppet.manifests_path = "manifests"
@@ -23,6 +24,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
+    vb.memory = "1024"
   end
 
   config.vm.synced_folder ".", "/vagrant", :nfs => true
@@ -50,7 +52,7 @@ Vagrant.configure(2) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
+  config.vm.synced_folder "../../Sites", "/vagrant/Sites", :nfs => true
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
