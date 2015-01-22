@@ -29,7 +29,7 @@ service { 'mysql':
   require => Package['mysql-server'],
 }
 
-package { ["php5-common", "libapache2-mod-php5", "php5-cli", "php-apc", "php5-mysql", "php5-gd"]:
+package { ["php5-common", "libapache2-mod-php5", "php5-cli", "php-apc", "php5-mysql", "php5-gd", "php5-intl", "phpunit"]:
   ensure => installed,
   notify => Service["apache2"],
   require => [Exec["apt-get update"], Package['mysql-client'], Package['apache2']],
@@ -81,9 +81,4 @@ exec { "apache_lockfile_permissions" :
   command => "/bin/chown -R vagrant:www-data /var/lock/apache2",
   require => Package["apache2"],
   notify  => Service["apache2"],
-}
-
-service { "apache2":
-  ensure => "running",
-  require => Package["apache2"]
 }
