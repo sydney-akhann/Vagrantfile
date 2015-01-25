@@ -29,7 +29,7 @@ service { 'mysql':
   require => Package['mysql-server'],
 }
 
-package { ["php5-common", "libapache2-mod-php5", "php5-cli", "php-apc", "php5-mysql", "php5-gd", "php5-intl", "phpunit"]:
+package { ["php5-common", "libapache2-mod-php5", "php5-cli", "php-apc", "php5-mysql", "php5-gd", "php5-intl", "php5-curl", "phpunit"]:
   ensure => installed,
   notify => Service["apache2"],
   require => [Exec["apt-get update"], Package['mysql-client'], Package['apache2']],
@@ -82,3 +82,13 @@ exec { "apache_lockfile_permissions" :
   require => Package["apache2"],
   notify  => Service["apache2"],
 }
+
+class composer {
+  exec { 'composer_install':
+    command => 'curl -sS https://getcomposer.org/installer | php && sudo mv composer.phar /usr/local/bin/composer',
+    path    => '/usr/bin:/usr/sbin',
+    require => Package['curl'],
+  }
+}
+class { 'composer': }
+include 'composer'
