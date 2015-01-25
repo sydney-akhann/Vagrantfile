@@ -1,4 +1,4 @@
-<Directory /vagrant>
+<Directory /home/vagrant/Sites>
     Options Indexes FollowSymLinks
     AllowOverride All
     Require all granted
@@ -6,7 +6,7 @@
 
 <VirtualHost *:80>
     ServerName localhost
-    DocumentRoot /vagrant/Sites/apollobramwell.com/web
+    DocumentRoot /home/vagrant/Sites/simple
 
     ErrorLog /var/log/apache2/error.log
     CustomLog /var/log/apache2/access.log combined
