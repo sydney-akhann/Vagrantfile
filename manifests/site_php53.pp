@@ -54,7 +54,7 @@ file {"/var/www":
 
 file { "/etc/apache2/sites-available/default":
   ensure => "link",
-  target => "/vagrant/manifests/assets/vhost.conf",
+  target => "/vagrant/manifests/assets/apache2.2_vhost.conf",
   require => Package["apache2"],
   notify => Service["apache2"],
   replace => yes,
@@ -86,5 +86,5 @@ exec { "apache_lockfile_permissions" :
 exec { 'composer_install':
   command => 'curl -sS https://getcomposer.org/installer | php && sudo mv composer.phar /usr/local/bin/composer',
   path    => '/usr/bin:/usr/sbin',
-  require => Package['curl'],
+  require => [Package['curl'], Package['php5-cli']],
 }

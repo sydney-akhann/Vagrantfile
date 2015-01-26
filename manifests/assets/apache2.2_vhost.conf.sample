@@ -1,0 +1,14 @@
+<Directory /home/vagrant/Sites>
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+</Directory>
+
+<VirtualHost *:80>
+    ServerName localhost
+    DocumentRoot /home/vagrant/Sites/simple
+
+    ErrorLog /var/log/apache2/error.log
+    CustomLog /var/log/apache2/access.log combined
+</VirtualHost>

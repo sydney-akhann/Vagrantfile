@@ -23,11 +23,9 @@ Vagrant.configure(2) do |config|
     php55.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
       vb.memory = "1024"
-      vb.gui = true
     end
 
     php55.vm.synced_folder ".", "/vagrant", :nfs => true
-
     php55.vm.synced_folder siteDir, "/home/vagrant/Sites", :nfs => true
   end
 
@@ -47,9 +45,6 @@ Vagrant.configure(2) do |config|
       vb.memory = "1024"
       vb.gui = true
     end
-
-    #php53.vm.synced_folder ".", "/vagrant"
-    #php53.vm.synced_folder "~/Sites", "/home/vagrant/Sites"
 
     php53.vm.synced_folder ".", "/vagrant", :nfs => true
     php53.vm.synced_folder "~/Sites", "/home/vagrant/Sites", :nfs => true

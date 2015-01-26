@@ -1,5 +1,6 @@
 /parameters.yml
-/manifests/assets/vhost.conf
+/manifests/assets/apache2.2_vhost.conf
+/manifests/assets/apache2.4_vhost.conf
 .vagrant
 .DS_Store
 *.swp
