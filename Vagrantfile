@@ -9,16 +9,19 @@ Vagrant.configure(2) do |config|
     siteDir = params['php55']['site_dir']
     privateIp = params['php55']['private_ip']
     publicIp = params['php55']['public_ip']
+    bridge = params['php55']['bridge']
 
     php55.vm.box = "puppetlabs/ubuntu-14.04-64-puppet"
 
     php55.vm.network "private_network", ip: privateIp
-    php55.vm.network "public_network", ip: publicIp
+    php55.vm.network "public_network", ip: publicIp, :bridge => bridge
 
     php55.vm.provision "puppet" do |puppet|
       puppet.manifests_path = "manifests"
       puppet.manifest_file  = "site_php55.pp"
     end
+
+    php55.vm.provision "shell", inline: "service apache2 restart", run: "always"
 
     php55.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
@@ -39,6 +42,8 @@ Vagrant.configure(2) do |config|
       puppet.manifests_path = "manifests"
       puppet.manifest_file  = "site_php53.pp"
     end
+
+    php53.vm.provision "shell", inline: "service apache2 restart", run: "always"
 
     php53.vm.provider "virtualbox" do |vb|
       #vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
