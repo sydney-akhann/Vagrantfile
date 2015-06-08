@@ -24,17 +24,12 @@ package {['mysql-server', 'mysql-client']:
   require => Exec["apt-get update"]
 }
 
-package {['ack-grep']:
-  ensure => installed,
-  require => Exec["apt-get update"]
-}
-
 service { 'mysql':
   ensure  => running,
   require => Package['mysql-server'],
 }
 
-package { ["php5-common", "libapache2-mod-php5", "php5-cli", "php-apc", "php5-mysql", "php5-gd", "php5-intl", "php5-curl", "php5-sqlite", "phpunit"]:
+package { ["php5-common", "libapache2-mod-php5", "php5-cli", "php-apc", "php5-mysql", "php5-gd", "php5-intl", "php5-curl", "phpunit"]:
   ensure => installed,
   notify => Service["apache2"],
   require => [Exec["apt-get update"], Package['mysql-client'], Package['apache2']],
@@ -57,9 +52,9 @@ file {"/var/www":
   force => true,
 }
 
-file { "/etc/apache2/sites-available/000-default.conf":
+file { "/etc/apache2/sites-available/default":
   ensure => "link",
-  target => "/vagrant/manifests/assets/apache2.4_vhost.conf",
+  target => "/vagrant/manifests/assets/apache2.2_vhost.conf",
   require => Package["apache2"],
   notify => Service["apache2"],
   replace => yes,
@@ -88,12 +83,8 @@ exec { "apache_lockfile_permissions" :
   notify  => Service["apache2"],
 }
 
-class composer {
-  exec { 'composer_install':
-    command => 'curl -sS https://getcomposer.org/installer | php && sudo mv composer.phar /usr/local/bin/composer',
-    path    => '/usr/bin:/usr/sbin',
-    require => [Package['php5-common'], Package['curl']],
-  }
+exec { 'composer_install':
+  command => 'curl -sS https://getcomposer.org/installer | php && sudo mv composer.phar /usr/local/bin/composer',
+  path    => '/usr/bin:/usr/sbin',
+  require => [Package['curl'], Package['php5-cli']],
 }
-class { 'composer': }
-include 'composer'
